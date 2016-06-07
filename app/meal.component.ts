@@ -21,4 +21,5 @@ import { Meal } from './meal.model.ts';
 
 export class MealComponent {
   public meal: Meal;
+
 }
