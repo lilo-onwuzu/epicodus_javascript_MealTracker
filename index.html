@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <title>Meal Tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- concatenated bower powered js files -->
+    <script src="build/js/vendor.min.js"></script>
+    <!-- concatenated bower powered css files including bootstraps -->
+    <link rel="stylesheet" href="build/css/vendor.css">
+
+    <!-- 1. Load libraries -->
+    <!-- IE required polyfills, in this exact order -->
+    <script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
+    <script src="node_modules/systemjs/dist/system.src.js"></script>
+    <script src="node_modules/rxjs/bundles/Rx.js"></script>
+
+    <!-- angluar 2 core library module -->
+    <script src="node_modules/angular2/bundles/angular2.dev.js"></script>
+    <script src="node_modules/moment/moment.js"></script>
+    <link rel="stylesheet" href="resources/styles/styles.css">
+    <link href='https://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
+  </head>
+
+  <!-- 3. Display the application -->
+  <body>
+    <!-- Angular parent component directive and child components with the full angular application -->
+    <my-app></my-app>
+  </body>
+
+  <!-- 2. Configure system -->
+  <script>
+    System.config({
+      packages: {
+        app: {
+          format: 'register',
+          defaultExtension: 'js'
+        }
+
+      }
+    });
+
+    // bootstrap parent component
+    System.import('app/main')
+          .then(null, console.error.bind(console));
+  </script>
+
+</html>

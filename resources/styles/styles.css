@@ -1,0 +1,44 @@
+.btn{
+  background-color: #56A8AE;
+}
+.btn:hover{
+  background-color: #56A8AE;
+  text-decoration: underline;
+  cursor: pointer;
+}
+body{
+  font-family: 'Abel', sans-serif;
+  text-align: center;
+  background-image: url(http://static1.squarespace.com/static/5418a5bae4b0877352524377/t/544db645e4b03c7c30b517ad/1414379082219/);
+  background-size: cover;
+}
+.jumbotron {
+  background-color: orange;
+  height: 50px;
+  padding: 0;
+  margin: 0;
+}
+input{
+  background-color: grey;
+}
+h4{
+  font-size: 120px;
+  text-shadow: -3px -3px 0 white;
+  color: orange;
+}
+.selected{
+  color: #0088cc;
+}
+.cursor:hover{
+  cursor: pointer;
+  color: grey;
+  text-decoration: underline;
+}
+.container{
+  font-size: 20px;
+  color: white;
+}
+h3{
+  font-size: 30px;
+  font-weight: bold;
+}
