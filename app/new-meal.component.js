@@ -19,25 +19,23 @@ System.register(['angular2/core'], function(exports_1, context_1) {
             }],
         execute: function() {
             NewMealComponent = (function () {
-                // instantiate onSubmit with EventEmitter class
                 function NewMealComponent() {
-                    this.newMealProperties = new core_1.EventEmitter();
+                    // We "instance" NewMealComponent's property 'new' as an object of the EventEmitter class
+                    this.newTrigger = new core_1.EventEmitter();
                 }
-                NewMealComponent.prototype.addMeal = function (newName, newDescription, newCalories) {
-                    this.newMealProperties.emit([newName.value,
-                        newDescription.value,
-                        parseInt(newCalories.value)]);
-                    newName.value = "";
-                    newDescription.value = "";
-                    newCalories.value = "";
+                // addMeal(args) method of NewMealComponent class will cause its property this.new to emit the values in the labels in args
+                NewMealComponent.prototype.addMeal = function (name, description, calories) {
+                    this.newTrigger.emit([name.value, description.value, parseInt(calories.value)]);
+                    name.value = "";
+                    description.value = "";
+                    calories.value = "";
                 };
                 NewMealComponent = __decorate([
                     core_1.Component({
                         selector: 'new-meal',
-                        inputs: ['meal'],
-                        // output newMeal EventEmitter for newMealProperties to parent root component directive
-                        outputs: ['newMealProperties'],
-                        template: "\n    <div *ngIf=\"selectedMeal\" class=\"meal-form\">\n      <h3>Add A New Meal:</h3>\n      <input placeholder=\"Name\" class=\"input-sm\" type=\"text\" #newName>\n      <input placeholder=\"Description\" class=\"input-sm\" type=\"text\" #newDescription>\n      <input placeholder=\"Calories\" class=\"input-sm\" type=\"number\" #newCalories>\n      <button class=\"btn btn-info\" (click)=\"addMeal(newName, newDescription, newCalories)\">Add</button>\n    </div>\n  "
+                        // output 'new' event to parent root component directive
+                        outputs: ['newTrigger'],
+                        template: "\n    <div class=\"meal-form\">\n      <h3>Add A New Meal:</h3>\n      <input placeholder=\"Name\" class=\"input-sm\" type=\"text\" #newName>\n      <input placeholder=\"Description\" class=\"input-sm\" type=\"text\" #newDescription>\n      <input placeholder=\"Calories\" class=\"input-sm\" type=\"number\" #newCalories>\n      <button class=\"btn btn-info\" (click)=\"addMeal(newName, newDescription, newCalories)\">Add</button>\n    </div>\n  "
                     }), 
                     __metadata('design:paramtypes', [])
                 ], NewMealComponent);

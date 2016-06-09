@@ -3,11 +3,10 @@ import { Meal } from './meal.model';
 
 @Component({
   selector: 'new-meal',
-  inputs: [ 'meal' ],
-  // output newMeal EventEmitter for newMealProperties to parent root component directive
-  outputs: [ 'newMealProperties' ],
+  // output 'new' event to parent root component directive
+  outputs: [ 'newTrigger' ],
   template: `
-    <div *ngIf="selectedMeal" class="meal-form">
+    <div class="meal-form">
       <h3>Add A New Meal:</h3>
       <input placeholder="Name" class="input-sm" type="text" #newName>
       <input placeholder="Description" class="input-sm" type="text" #newDescription>
@@ -17,25 +16,25 @@ import { Meal } from './meal.model';
   `
 })
 
-// in Angular, properties and methods are passed down from parent components to child components. Events are passed the opposite way. "properties down, actions up". Here we create an Event emitter to trigger a new meal addition to the root component class.
-// newMeal property is of EventEmitter<Meal> type
+// in Angular, properties can be passed down from parent components to child components. Events can be passed the opposite way. "properties down, actions up". Here we create an Event emitter to trigger a new meal addition to the root component class.
+// We "declare" NewMealComponent's property 'new' as a data object of the EventEmitter<> type that can hold any type of data object
 export class NewMealComponent {
-  public newMealProperties: EventEmitter< any[] >;
+  // newTrigger is a new EventEmitter that will send an event trigger to the parent component (meal-list). Remember the master list that we need to update lives in the root component
+  // newTrigger is of EventEmitter type that emits an array (any[]) of any data object type (string, number etc.)
+  public newTrigger: EventEmitter<any[]>;
 
-  // instantiate onSubmit with EventEmitter class
   constructor () {
-    this.newMealProperties = new EventEmitter();
+    // We "instance" NewMealComponent's property 'new' as an object of the EventEmitter class
+    this.newTrigger = new EventEmitter();
   }
 
-  addMeal(newName: HTMLInputElement,
-          newDescription: HTMLInputElement,
-          newCalories: HTMLInputElement) {
-    this.newMealProperties.emit([newName.value,
-         newDescription.value,
-         parseInt(newCalories.value)]);
+  // addMeal(args) method of NewMealComponent class will cause its property this.new to emit the values in the labels in args
+  addMeal(name: HTMLInputElement, description: HTMLInputElement, calories: HTMLInputElement): void {
+    this.newTrigger.emit([name.value, description.value, parseInt(calories.value)]);
 
-    newName.value = "";
-    newDescription.value = "";
-    newCalories.value = "";
+    name.value = "";
+    description.value = "";
+    calories.value = "";
   }
+
 }

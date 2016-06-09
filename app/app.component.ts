@@ -27,7 +27,8 @@ import { Meal } from './meal.model';
 export class AppComponent {
   public meals: Meal[];
 
-  constructor(){
+  constructor() {
     this.meals = [new Meal("Icecream", "Sooo good", 1500), new Meal("Rice & Stew", "muy picantes", 495)];
   }
+
 }

@@ -1,5 +1,6 @@
-import { Component } from 'angular2/core';
+import { Component, EventEmitter } from 'angular2/core';
 import { MealComponent } from './meal.component';
+import { NewMealComponent } from './new-meal.component';
 import { Meal } from './meal.model';
 
 // *ngFor directive is used an an attrubute of the div. It will duplicate create one div branch for every meal in mealList
@@ -8,7 +9,7 @@ import { Meal } from './meal.model';
 
 @Component({
   selector: 'meal-list',
-  directives: [ MealComponent ],
+  directives: [ MealComponent , NewMealComponent ],
   inputs: [ 'mealList' ],
   template: `
     <select (change)="onChange($event.target.value)">
@@ -21,6 +22,8 @@ import { Meal } from './meal.model';
     <div *ngFor="#meal of mealList" (click)="selectMeal(meal)" [class.selected]="meal === selectedMeal" >
       <meal-display [meal]="meal" [selectedMeal]="selectedMeal" ></meal-display>
     </div>
+
+    <new-meal (newTrigger)="addMeal($event)" ></new-meal>
   `
 })
 
@@ -34,4 +37,9 @@ export class MealListComponent{
   selectMeal(clickedMeal: Meal): void {
     this.selectedMeal = clickedMeal;
   }
+
+  addMeal(newMeal: any[]) : void {
+    this.mealList.push(new Meal(newMeal[0], newMeal[1], newMeal[2]));
+  }
+
 }
