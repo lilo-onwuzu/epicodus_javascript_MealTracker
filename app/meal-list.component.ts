@@ -2,6 +2,7 @@ import { Component, EventEmitter } from 'angular2/core';
 import { MealComponent } from './meal.component';
 import { NewMealComponent } from './new-meal.component';
 import { Meal } from './meal.model';
+import { HealthPipe } from './health.pipe';
 
 // *ngFor directive is used an an attrubute of the div. It will duplicate create one div branch for every meal in mealList
 // (click)="selectMeal(meal)" attaches a click listener to the div for each meal to cause the clicked Meal to be selected
@@ -11,6 +12,7 @@ import { Meal } from './meal.model';
   selector: 'meal-list',
   directives: [ MealComponent , NewMealComponent ],
   inputs: [ 'mealList' ],
+  pipes: [ HealthPipe ],
   template: `
     <select (change)="onChange($event.target.value)">
       <option value="all">All</option>
@@ -19,7 +21,7 @@ import { Meal } from './meal.model';
       <option value="">Date</option>
     </select>
 
-    <div *ngFor="#meal of mealList" (click)="selectMeal(meal)" [class.selected]="meal === selectedMeal" >
+    <div *ngFor="#meal of mealList | health:filterHealth" (click)="selectMeal(meal)" [class.selected]="meal === selectedMeal" >
       <meal-display [meal]="meal" [selectedMeal]="selectedMeal" ></meal-display>
     </div>
 
@@ -31,6 +33,7 @@ export class MealListComponent{
 
   public mealList: Meal[];
   public selectedMeal: Meal;
+  public filterHealth: string = "healthy";
 
   construct() {}
 
@@ -40,6 +43,10 @@ export class MealListComponent{
 
   addMeal(newMeal: any[]) : void {
     this.mealList.push(new Meal(newMeal[0], newMeal[1], newMeal[2]));
+  }
+
+  onChange(filterOption) {
+    this.filterHealth = filterOption;
   }
 
 }

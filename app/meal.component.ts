@@ -18,6 +18,7 @@ import { Meal } from './meal.model.ts';
       <h3 class="cursor" >{{ meal.name }}</h3>
       <p *ngIf="meal === selectedMeal" >{{ meal.description }}</p>
       <p *ngIf="meal === selectedMeal" >{{ meal.calories }}</p>
+      <small *ngIf="meal === selectedMeal" >{{ meal.day }} {{ meal.time }}</small>
     </div>
     <edit-meal [meal]="meal" *ngIf="meal === selectedMeal" ></edit-meal>
   `
