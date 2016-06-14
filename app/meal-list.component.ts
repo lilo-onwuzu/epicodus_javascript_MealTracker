@@ -36,10 +36,12 @@ import { Health_Date_Pipe } from './health.date.pipe';
     </div>
 
     <div *ngFor="#meal of mealList | health_date:sliderMinValue:sliderMaxValue:filterDate" (click)="selectMeal(meal)" [class.selected]="meal === selectedMeal" >
-      <meal-display [meal]="meal" [selectedMeal]="selectedMeal" ></meal-display>
-    </div><br>
+      <meal-display [meal]="meal" [selectedMeal]="selectedMeal" (store2)="collectCalories($event)" (change)="totalCalories_change(meal)"></meal-display>
+    </div>
 
-    <new-meal (newTrigger)="addMeal($event)" ></new-meal>
+    <new-meal (newTrigger)="addMeal($event)" (newTrigger)="totalCalories_new($event)"></new-meal><br>
+
+    <p>TotalCalories: {{ total_calories }}</p>
   `
 })
 
@@ -51,6 +53,7 @@ export class MealListComponent{
   public sliderMaxValue: number = 3000;
   public filterDate: string;
   public total_calories: number = 0;
+  public collect: number = 0;
 
   construct() {}
 
@@ -62,8 +65,16 @@ export class MealListComponent{
     this.mealList.push(new Meal(newMeal[0], newMeal[1], newMeal[2]));
   }
 
-  totalCalories(meal: Meal) : void {
-    this.total_calories += meal.calories;
+  collectCalories(calories: number){
+    this.collect = calories;
+  }
+
+  totalCalories_change(meal: Meal): void {
+    this.total_calories = this.total_calories + meal.calories - this.collect;
+  }
+
+  totalCalories_new(newMeal: any[]) : void {
+    this.total_calories += newMeal[2];
   }
 
   collectDateFilter(filterOption) : void {

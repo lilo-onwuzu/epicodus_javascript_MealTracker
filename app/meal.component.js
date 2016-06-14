@@ -24,10 +24,17 @@ System.register(['angular2/core', './edit-meal.component'], function(exports_1, 
             // {{ model }} "mustache tags" is used to call a one-way stream from a component to its template
             MealComponent = (function () {
                 function MealComponent() {
+                    // input property  ['meal'] passed down from parent-component <meal-list> has to be declared here as public meal:Meal before the input property can be used here. In this case, we do not need to use it so we do not declare it
+                    // No output propeties to declare and then use
+                    this.store2 = new core_1.EventEmitter();
                 }
-                // input property  ['meal'] passed down from parent-component <meal-list> has to be declared here as public meal:Meal before the input property can be used here. In this case, we do not need to use it so we do not declare it
-                // No output propeties to declare and then use
-                MealComponent.prototype.construct = function () { };
+                MealComponent.prototype.construct = function () {
+                    this.store2 = new core_1.EventEmitter();
+                };
+                MealComponent.prototype.storeAgain = function (event) {
+                    this.collect = event;
+                    this.store2.emit(this.collect);
+                };
                 MealComponent = __decorate([
                     core_1.Component({
                         selector: 'meal-display',
@@ -38,7 +45,8 @@ System.register(['angular2/core', './edit-meal.component'], function(exports_1, 
                         // parent component <meal-list> transfers its property "meal" to <meal-display> child component's input property [meal].
                         // child component <meal-display> outputs an event (editTrigger) to its parent <meal-list>
                         inputs: ['meal', 'selectedMeal'],
-                        template: "\n    <div>\n      <h3 class=\"cursor\" >{{ meal.name }}</h3>\n      <p *ngIf=\"meal === selectedMeal\" >{{ meal.description }}</p>\n      <p *ngIf=\"meal === selectedMeal\" >{{ meal.calories }}</p>\n      <small *ngIf=\"meal === selectedMeal\" >{{ meal.day }} {{ meal.time }}</small>\n    </div>\n    <edit-meal [meal]=\"meal\" *ngIf=\"meal === selectedMeal\" ></edit-meal>\n  "
+                        outputs: ['store2'],
+                        template: "\n    <div>\n      <h3 class=\"cursor\" >{{ meal.name }}</h3>\n      <p *ngIf=\"meal === selectedMeal\" >{{ meal.description }}</p>\n      <p *ngIf=\"meal === selectedMeal\" >{{ meal.calories }}</p>\n      <small *ngIf=\"meal === selectedMeal\" >{{ meal.day }} {{ meal.time }}</small>\n    </div>\n    <edit-meal [meal]=\"meal\" *ngIf=\"meal === selectedMeal\" (store)=\"storeAgain($event)\" ></edit-meal>\n  "
                     }), 
                     __metadata('design:paramtypes', [])
                 ], MealComponent);

@@ -30,7 +30,12 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     var maxCalories = args[1];
                     var mealDate = args[2];
                     return input.filter(function (meal) {
-                        return meal.calories >= minCalories && meal.calories <= maxCalories && meal.day === mealDate;
+                        if (mealDate) {
+                            return meal.calories >= minCalories && meal.calories <= maxCalories && meal.day === mealDate;
+                        }
+                        else {
+                            return meal.calories >= minCalories && meal.calories <= maxCalories;
+                        }
                     });
                 };
                 Health_Date_Pipe = __decorate([

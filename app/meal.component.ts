@@ -13,6 +13,7 @@ import { Meal } from './meal.model.ts';
   // parent component <meal-list> transfers its property "meal" to <meal-display> child component's input property [meal].
   // child component <meal-display> outputs an event (editTrigger) to its parent <meal-list>
   inputs: [ 'meal', 'selectedMeal' ],
+  outputs: [ 'store2' ],
   template: `
     <div>
       <h3 class="cursor" >{{ meal.name }}</h3>
@@ -20,14 +21,24 @@ import { Meal } from './meal.model.ts';
       <p *ngIf="meal === selectedMeal" >{{ meal.calories }}</p>
       <small *ngIf="meal === selectedMeal" >{{ meal.day }} {{ meal.time }}</small>
     </div>
-    <edit-meal [meal]="meal" *ngIf="meal === selectedMeal" ></edit-meal>
+    <edit-meal [meal]="meal" *ngIf="meal === selectedMeal" (store)="storeAgain($event)" ></edit-meal>
   `
 })
 
 export class MealComponent {
   // input property  ['meal'] passed down from parent-component <meal-list> has to be declared here as public meal:Meal before the input property can be used here. In this case, we do not need to use it so we do not declare it
   // No output propeties to declare and then use
+  public store2: EventEmitter<number> = new EventEmitter();
+  public collect: number;
 
-  construct() {}
+  construct() {
+    this.store2 = new EventEmitter();
+  }
+
+  storeAgain(event: number): void {
+    this.collect = event;
+    this.store2.emit(this.collect);
+  }
+
 
 }

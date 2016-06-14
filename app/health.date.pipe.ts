@@ -19,8 +19,11 @@ export class Health_Date_Pipe implements PipeTransform {
     var mealDate = args[2];
 
     return input.filter((meal) => {
-      return meal.calories >= minCalories && meal.calories <= maxCalories && meal.day === mealDate;
-    });
-
+      if (mealDate) {
+        return meal.calories >= minCalories && meal.calories <= maxCalories && meal.day === mealDate;
+      } else {
+        return meal.calories >= minCalories && meal.calories <= maxCalories;
+      }
+    })
   }
 }

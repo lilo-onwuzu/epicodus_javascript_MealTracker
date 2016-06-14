@@ -41,6 +41,7 @@ System.register(['angular2/core', './meal.component', './new-meal.component', '.
                     this.sliderMinValue = 0;
                     this.sliderMaxValue = 3000;
                     this.total_calories = 0;
+                    this.collect = 0;
                 }
                 MealListComponent.prototype.construct = function () { };
                 MealListComponent.prototype.selectMeal = function (clickedMeal) {
@@ -49,8 +50,14 @@ System.register(['angular2/core', './meal.component', './new-meal.component', '.
                 MealListComponent.prototype.addMeal = function (newMeal) {
                     this.mealList.push(new meal_model_1.Meal(newMeal[0], newMeal[1], newMeal[2]));
                 };
-                MealListComponent.prototype.totalCalories = function (meal) {
-                    this.total_calories += meal.calories;
+                MealListComponent.prototype.collectCalories = function (calories) {
+                    this.collect = calories;
+                };
+                MealListComponent.prototype.totalCalories_change = function (meal) {
+                    this.total_calories = this.total_calories + meal.calories - this.collect;
+                };
+                MealListComponent.prototype.totalCalories_new = function (newMeal) {
+                    this.total_calories += newMeal[2];
                 };
                 MealListComponent.prototype.collectDateFilter = function (filterOption) {
                     this.filterDate = filterOption;
@@ -61,7 +68,7 @@ System.register(['angular2/core', './meal.component', './new-meal.component', '.
                         directives: [meal_component_1.MealComponent, new_meal_component_1.NewMealComponent],
                         inputs: ['mealList'],
                         pipes: [health_date_pipe_1.Health_Date_Pipe],
-                        template: "\n    <div class=\"row\">\n      <div class=\"col-md-6\">\n        <section class=\"range-slider\">\n          <p>Filter Meals By Calories:</p>\n          <input type=\"range\" min=\"0\" max=\"3000\" step=\"50\" [(ngModel)] = \"sliderMinValue\"/>\n          <input type=\"range\" min=\"0\" max=\"3000\" step=\"50\" [(ngModel)] = \"sliderMaxValue\"/>\n          <span> {{ sliderMinValue }} - {{ sliderMaxValue }} </span>\n        </section>\n      </div>\n\n      <div class=\"col-md-6\">\n        <section class=\"date-selection\">\n          <p>Filter Meals By Date:</p>\n          <p><input type=\"date\" [(ngModel)] = \"filterDate\"/></p>\n          <span>{{ filterDate }}</span>\n        </section>\n      </div>\n    </div>\n\n    <div *ngFor=\"#meal of mealList | health_date:sliderMinValue:sliderMaxValue:filterDate\" (click)=\"selectMeal(meal)\" [class.selected]=\"meal === selectedMeal\" >\n      <meal-display [meal]=\"meal\" [selectedMeal]=\"selectedMeal\" ></meal-display>\n    </div><br>\n\n    <new-meal (newTrigger)=\"addMeal($event)\" ></new-meal>\n  "
+                        template: "\n    <div class=\"row\">\n      <div class=\"col-md-6\">\n        <section class=\"range-slider\">\n          <p>Filter Meals By Calories:</p>\n          <input type=\"range\" min=\"0\" max=\"3000\" step=\"50\" [(ngModel)] = \"sliderMinValue\"/>\n          <input type=\"range\" min=\"0\" max=\"3000\" step=\"50\" [(ngModel)] = \"sliderMaxValue\"/>\n          <span> {{ sliderMinValue }} - {{ sliderMaxValue }} </span>\n        </section>\n      </div>\n\n      <div class=\"col-md-6\">\n        <section class=\"date-selection\">\n          <p>Filter Meals By Date:</p>\n          <p><input type=\"date\" [(ngModel)] = \"filterDate\"/></p>\n          <span>{{ filterDate }}</span>\n        </section>\n      </div>\n    </div>\n\n    <div *ngFor=\"#meal of mealList | health_date:sliderMinValue:sliderMaxValue:filterDate\" (click)=\"selectMeal(meal)\" [class.selected]=\"meal === selectedMeal\" >\n      <meal-display [meal]=\"meal\" [selectedMeal]=\"selectedMeal\" (store2)=\"collectCalories($event)\" (change)=\"totalCalories_change(meal)\"></meal-display>\n    </div>\n\n    <new-meal (newTrigger)=\"addMeal($event)\" (newTrigger)=\"totalCalories_new($event)\"></new-meal><br>\n\n    <p>TotalCalories: {{ total_calories }}</p>\n  "
                     }), 
                     __metadata('design:paramtypes', [])
                 ], MealListComponent);

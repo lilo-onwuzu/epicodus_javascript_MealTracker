@@ -20,14 +20,20 @@ System.register(['angular2/core'], function(exports_1, context_1) {
         execute: function() {
             EditMealComponent = (function () {
                 function EditMealComponent() {
+                    this.store = new core_1.EventEmitter();
                 }
+                EditMealComponent.prototype.storeCalories = function (meal) {
+                    this.store_calories = meal.calories;
+                    this.store.emit(this.store_calories);
+                };
                 EditMealComponent = __decorate([
                     core_1.Component({
                         selector: 'edit-meal',
                         inputs: ['meal'],
+                        outputs: ['store'],
                         // input tag with [(ngModel)] directive as attribite where [(ngModel)] represents a two-way binding data path from component to EditMealComponent to its template and back from the template's input every Angular clock cycle to update its component. "placeholder" attribute is the input selection name that is displayed "#editName" is the label name attached to this input. This is the short hand form of the label-name/input-value pair  in html.
                         // By (click)="editMeal()", an output event is triggered out from the button directive and into the <edit-meal> parent component to trigger its editMeal() method.
-                        template: "\n    <div class=\"meal-form\">\n      <h3>Edit Meal:</h3>\n      <input [(ngModel)]=\"meal.name\" placeholder=\"Name\" class=\"input-sm\" #editName>\n      <input [(ngModel)]=\"meal.description\" placeholder=\"Description\" class=\"input-sm\" #editDescription>\n      <input [(ngModel)]=\"meal.calories\" placeholder=\"Calories\" class=\"input-sm\" #editCalories>\n    </div>\n  "
+                        template: "\n    <div class=\"meal-form\">\n      <h3>Edit Meal:</h3>\n      <input [(ngModel)]=\"meal.name\" type=\"text\" placeholder=\"Name\" class=\"input-sm\" #editName>\n      <input [(ngModel)]=\"meal.description\" type=\"text\" placeholder=\"Description\" class=\"input-sm\" #editDescription>\n      <input [(ngModel)]=\"meal.calories\" type=\"number\" (click)=\"storeCalories(meal)\" placeholder=\"Calories\" class=\"input-sm\" #editCalories>\n    </div>\n  "
                     }), 
                     __metadata('design:paramtypes', [])
                 ], EditMealComponent);
