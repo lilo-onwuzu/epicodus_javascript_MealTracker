@@ -1,11 +1,15 @@
 export class Meal {
   public health: boolean;
+  public date: any;
   public day: string;
-  public time: string;
+  public split1: string[];
+  public split2: string[];
 
   constructor(public name: string, public description: string, public calories: number) {
-    this.day = new Date().toLocaleDateString();
-    this.time = new Date().toLocaleTimeString();
+    this.date = new Date().toJSON();
+    this.split1 = this.date.split("-");
+    this.split2 = this.split1[2].split("T");
+    this.day = this.split1[0] + "-" + this.split1[1] + "-" + this.split2[0];
   }
 
 }

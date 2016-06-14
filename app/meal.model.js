@@ -10,8 +10,10 @@ System.register([], function(exports_1, context_1) {
                     this.name = name;
                     this.description = description;
                     this.calories = calories;
-                    this.day = new Date().toLocaleDateString();
-                    this.time = new Date().toLocaleTimeString();
+                    this.date = new Date().toJSON();
+                    this.split1 = this.date.split("-");
+                    this.split2 = this.split1[2].split("T");
+                    this.day = this.split1[0] + "-" + this.split1[1] + "-" + this.split2[0];
                 }
                 return Meal;
             }());
