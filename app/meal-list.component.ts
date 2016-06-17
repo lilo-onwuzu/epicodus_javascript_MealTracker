@@ -40,9 +40,11 @@ import { Health_Date_Pipe } from './health.date.pipe';
     <div *ngFor="#meal of mealList | health_date:sliderMinValue:sliderMaxValue:filterDate" (click)="selectMeal(meal)" [class.selected]="meal === selectedMeal" >
       <meal-display [meal]="meal" [selectedMeal]="selectedMeal" (store2)="storeInitialCalories($event)" (change)="totalCalories_change(meal)"></meal-display>
     </div><br><br>
-    {{ sendTotalCalories() }}
 
-    <new-meal (newTrigger)="addMeal($event)" (newTrigger)="totalCalories_new($event)"></new-meal><br>
+    <new-meal (newTrigger)="addMeal($event)" (newTrigger)="totalCalories_new($event)" (newTrigger)="sendTotalCalories()"></new-meal><br>
+
+
+
   `
 })
 
@@ -60,7 +62,9 @@ export class MealListComponent{
   public totalTrigger: EventEmitter<number> = new EventEmitter();
 
   // no required arguments to instantiate this class
-  construct() {}
+  construct() {
+    this.totalTrigger = new EventEmitter();
+  }
 
   selectMeal(clickedMeal: Meal): void {
     this.selectedMeal = clickedMeal;

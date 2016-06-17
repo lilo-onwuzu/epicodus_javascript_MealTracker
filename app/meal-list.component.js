@@ -45,7 +45,9 @@ System.register(['angular2/core', './meal.component', './new-meal.component', '.
                     this.totalTrigger = new core_1.EventEmitter();
                 }
                 // no required arguments to instantiate this class
-                MealListComponent.prototype.construct = function () { };
+                MealListComponent.prototype.construct = function () {
+                    this.totalTrigger = new core_1.EventEmitter();
+                };
                 MealListComponent.prototype.selectMeal = function (clickedMeal) {
                     this.selectedMeal = clickedMeal;
                 };
@@ -75,7 +77,7 @@ System.register(['angular2/core', './meal.component', './new-meal.component', '.
                         inputs: ['mealList'],
                         outputs: ['totalTrigger'],
                         pipes: [health_date_pipe_1.Health_Date_Pipe],
-                        template: "\n    <div class=\"row\">\n\n      <div class=\"col-sm-6\">\n        <section class=\"range-slider\">\n          <p>Filter Meals By Calories:</p>\n          <input type=\"range\" min=\"0\" max=\"3000\" step=\"50\" [(ngModel)] = \"sliderMinValue\"/>\n          <input type=\"range\" min=\"0\" max=\"3000\" step=\"50\" [(ngModel)] = \"sliderMaxValue\"/>\n          <span> {{ sliderMinValue }} - {{ sliderMaxValue }} </span>\n        </section>\n      </div>\n\n      <div class=\"col-md-6\">\n        <section class=\"date-selection\">\n          <p>Filter Meals By Date:</p>\n          <p><input type=\"date\" [(ngModel)] = \"filterDate\" class=\"input-sm\"/></p>\n          <span>{{ filterDate }}</span>\n        </section>\n      </div>\n    </div>\n\n    <div *ngFor=\"#meal of mealList | health_date:sliderMinValue:sliderMaxValue:filterDate\" (click)=\"selectMeal(meal)\" [class.selected]=\"meal === selectedMeal\" >\n      <meal-display [meal]=\"meal\" [selectedMeal]=\"selectedMeal\" (store2)=\"storeInitialCalories($event)\" (change)=\"totalCalories_change(meal)\"></meal-display>\n    </div><br><br>\n    {{ sendTotalCalories() }}\n\n    <new-meal (newTrigger)=\"addMeal($event)\" (newTrigger)=\"totalCalories_new($event)\"></new-meal><br>\n  "
+                        template: "\n    <div class=\"row\">\n\n      <div class=\"col-sm-6\">\n        <section class=\"range-slider\">\n          <p>Filter Meals By Calories:</p>\n          <input type=\"range\" min=\"0\" max=\"3000\" step=\"50\" [(ngModel)] = \"sliderMinValue\"/>\n          <input type=\"range\" min=\"0\" max=\"3000\" step=\"50\" [(ngModel)] = \"sliderMaxValue\"/>\n          <span> {{ sliderMinValue }} - {{ sliderMaxValue }} </span>\n        </section>\n      </div>\n\n      <div class=\"col-md-6\">\n        <section class=\"date-selection\">\n          <p>Filter Meals By Date:</p>\n          <p><input type=\"date\" [(ngModel)] = \"filterDate\" class=\"input-sm\"/></p>\n          <span>{{ filterDate }}</span>\n        </section>\n      </div>\n    </div>\n\n    <div *ngFor=\"#meal of mealList | health_date:sliderMinValue:sliderMaxValue:filterDate\" (click)=\"selectMeal(meal)\" [class.selected]=\"meal === selectedMeal\" >\n      <meal-display [meal]=\"meal\" [selectedMeal]=\"selectedMeal\" (store2)=\"storeInitialCalories($event)\" (change)=\"totalCalories_change(meal)\"></meal-display>\n    </div><br><br>\n\n    <new-meal (newTrigger)=\"addMeal($event)\" (newTrigger)=\"totalCalories_new($event)\" (newTrigger)=\"sendTotalCalories()\"></new-meal><br>\n\n\n\n  "
                     }), 
                     __metadata('design:paramtypes', [])
                 ], MealListComponent);
