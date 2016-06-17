@@ -3,7 +3,7 @@ By Ililochi Onwuzu
 
 
 Description:
-This web application was designed to allow a user to track their daily calorie intake by entering a meal, a description about the meal and its number of calories. A timestamp is attached to the entry. The user is able to filter the list of meals by the number of calories and the date of entry. The filters are stable and were designed using Angular Pipes. The total calories of the meals listed are displayed in the top left of the web page.
+This web application was designed to allow a user to track their daily calorie intake by entering a meal, a description about the meal and its number of calories. A timestamp is attached to the entry. The user is able to filter the list of meals by the number of calories and the date of entry. The filters are stable and were designed using Angular Pipes. The total calories of the meals listed are displayed in the top left of the web page. Total Calories responds to calorie edit.
 
 
 Improvements Needed:

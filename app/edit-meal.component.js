@@ -21,23 +21,27 @@ System.register(['angular2/core'], function(exports_1, context_1) {
             EditMealComponent = (function () {
                 // these are the properties "required" to instantiate this class. In this case, no argument is required to instantiate this class
                 function EditMealComponent() {
-                    // these are the attributes/properties of this class
                     this.store = new core_1.EventEmitter();
+                    this.changeTrigger = new core_1.EventEmitter();
                 }
                 // storeCalories(meal) method outputs event trigger (store) with initial value of meal-calories enclosed to its parent(s) on click
                 EditMealComponent.prototype.storeCalories = function (meal) {
                     this.store_calories = meal.calories;
-                    this.store.emit(this.store_calories);
+                    this.store.emit(parseInt(this.store_calories.toString()));
+                };
+                // changeTrigger sends event trigger only if calorie value actually changes
+                EditMealComponent.prototype.calorieChanged = function (meal) {
+                    this.changeTrigger.emit(parseInt(meal.calories.toString()));
                 };
                 EditMealComponent = __decorate([
                     core_1.Component({
                         selector: 'edit-meal',
                         // input property "meal" from parent <meal-display>
                         inputs: ['meal'],
-                        outputs: ['store'],
+                        outputs: ['store', 'changeTrigger'],
                         // input tag with [(ngModel)] directive as attribite where [(ngModel)] represents a two-way binding data path from component to EditMealComponent to its template and back from the template's input every Angular clock cycle to update its component. "placeholder" attribute is the input selection name that is displayed "#editName" is the label name attached to this input. This is the short hand form of the label-name/input-value pair in html.
                         // By (click)="editMeal()", an output event is triggered out from the button directive and into the <edit-meal> parent component to trigger its editMeal() method.
-                        template: "\n    <div class=\"meal-form\">\n      <h3>Edit Meal:</h3>\n\n      <input [(ngModel)]=\"meal.name\" type=\"text\" placeholder=\"Name\" class=\"input-sm\" #editName>\n      <input [(ngModel)]=\"meal.description\" type=\"text\" placeholder=\"Description\" class=\"input-sm\" #editDescription>\n      <span> 0 <input [(ngModel)]=\"meal.calories\" placeholder=\"Calories\" class=\"input-sm-calories\" type=\"range\" min=\"0\" max=\"3000\" step=\"50\" (click)=\"storeCalories(meal)\" #editCalories> 3000 Calories </span><br>\n\n    </div>\n  "
+                        template: "\n    <div class=\"meal-form\">\n      <h3>Edit Meal:</h3>\n\n      <input [(ngModel)]=\"meal.name\" type=\"text\" placeholder=\"Name\" class=\"input-sm\" #editName>\n      <input [(ngModel)]=\"meal.description\" type=\"text\" placeholder=\"Description\" class=\"input-sm\" #editDescription>\n      <span> 0 <input [(ngModel)]=\"meal.calories\" placeholder=\"Calories\" class=\"input-sm-calories\" type=\"range\" min=\"0\" max=\"3000\" step=\"50\" (click)=\"storeCalories(meal)\" (change)=\"calorieChanged(meal)\" #editCalories> 3000 Calories </span><br>\n\n    </div>\n  "
                     }), 
                     __metadata('design:paramtypes', [])
                 ], EditMealComponent);

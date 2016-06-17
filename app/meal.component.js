@@ -27,11 +27,14 @@ System.register(['angular2/core', './edit-meal.component'], function(exports_1, 
                     // input property  ['meal'] passed down from parent-component <meal-list> has to be declared here as public meal:Meal before the input property can be used here. In this case, we do not need to use it so we do not declare it
                     // No output propeties to declare and then use
                     this.store2 = new core_1.EventEmitter();
+                    this.change2 = new core_1.EventEmitter();
                 }
                 MealComponent.prototype.construct = function () { };
                 MealComponent.prototype.storeAgain = function (initialCalories) {
-                    this.calories = initialCalories;
-                    this.store2.emit(this.calories);
+                    this.store2.emit(initialCalories);
+                };
+                MealComponent.prototype.changeAgain = function (calories) {
+                    this.change2.emit(calories);
                 };
                 MealComponent = __decorate([
                     core_1.Component({
@@ -43,8 +46,8 @@ System.register(['angular2/core', './edit-meal.component'], function(exports_1, 
                         // parent component <meal-list> transfers its property "meal" to <meal-display> child component's input property [meal].
                         inputs: ['meal', 'selectedMeal'],
                         // "store" output property from <edit-meal> is used to trigger the storeAgain(<value held in "store" EventEmitter>) method which send another event trigger "store2" to the parent of <meal-display>, <meal-list>
-                        outputs: ['store2'],
-                        template: "\n    <div>\n      <h3 class=\"cursor\" >{{ meal.name }}</h3>\n\n      <div class=\"details\">\n        <p *ngIf=\"meal === selectedMeal\" >{{ meal.description }}</p>\n        <p *ngIf=\"meal === selectedMeal\" >{{ meal.calories }}</p>\n        <small *ngIf=\"meal === selectedMeal\" >{{ meal.day }} {{ meal.time }}</small>\n      </div>\n\n    </div>\n\n    <edit-meal *ngIf=\"meal === selectedMeal\" [meal]=\"meal\" (store)=\"storeAgain($event)\" ></edit-meal>\n  "
+                        outputs: ['store2', 'change2'],
+                        template: "\n    <div>\n      <h3 class=\"cursor\" >{{ meal.name }}</h3>\n\n      <div class=\"details\">\n        <p *ngIf=\"meal === selectedMeal\" >{{ meal.description }}</p>\n        <p *ngIf=\"meal === selectedMeal\" >{{ meal.calories }}</p>\n        <small *ngIf=\"meal === selectedMeal\" >{{ meal.day }} {{ meal.time }}</small>\n      </div>\n\n    </div>\n\n    <edit-meal *ngIf=\"meal === selectedMeal\" [meal]=\"meal\" (store)=\"storeAgain($event)\" (changeTrigger)=\"changeAgain($event)\"></edit-meal>\n  "
                     }), 
                     __metadata('design:paramtypes', [])
                 ], MealComponent);

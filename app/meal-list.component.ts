@@ -38,12 +38,10 @@ import { Health_Date_Pipe } from './health.date.pipe';
     </div>
 
     <div *ngFor="#meal of mealList | health_date:sliderMinValue:sliderMaxValue:filterDate" (click)="selectMeal(meal)" [class.selected]="meal === selectedMeal" >
-      <meal-display [meal]="meal" [selectedMeal]="selectedMeal" (store2)="storeInitialCalories($event)" (change)="totalCalories_change(meal)"></meal-display>
+      <meal-display [meal]="meal" [selectedMeal]="selectedMeal" (store2)="storeInitialCalories($event)"  (change2)="changedCalories($event)" (change2)="sendTotalCalories()"></meal-display>
     </div><br><br>
 
     <new-meal (newTrigger)="addMeal($event)" (newTrigger)="totalCalories_new($event)" (newTrigger)="sendTotalCalories()"></new-meal><br>
-
-
 
   `
 })
@@ -58,16 +56,19 @@ export class MealListComponent{
   public filterDate: string;
 
   public total_calories: number = 0;
-  public initialCalories: number = 0;
+  public initialCalories: number;
+  public new_calories: number = 0;
   public totalTrigger: EventEmitter<number> = new EventEmitter();
+  public array: number[] = [];
 
-  // no required arguments to instantiate this class
-  construct() {
-    this.totalTrigger = new EventEmitter();
-  }
+  // no required arguments to instance <meal-list></meal-list>
+  construct() {}
 
-  selectMeal(clickedMeal: Meal): void {
+  selectMeal(clickedMeal: Meal) : void {
     this.selectedMeal = clickedMeal;
+
+    // anytime a meal is clicked, push the calorie value into an array. This will help with compting total_calories
+    this.array.push(clickedMeal.calories);
   }
 
   addMeal(newMeal: any[]) : void {
@@ -78,21 +79,30 @@ export class MealListComponent{
     this.filterDate = filterOption;
   }
 
-  sendTotalCalories(): void {
+  totalCalories_new(newMeal: any[]) : void {
+    this.total_calories += newMeal[2];
+  }
+
+  sendTotalCalories() : void {
     this.totalTrigger.emit(this.total_calories);
   }
 
+  // whenever the editcalorie input is clicked redefine initialCalories
   storeInitialCalories(calories: number) : void {
     this.initialCalories = calories;
   }
 
-  // whenever the meal.calories slider in edit-meal is clicked, a "store" event is triggered from <edit-meal> to <meal-display> and then to <meal-list> that stores meal.calories at time of click. Then "only if the value of meal.calories changes", will the value of initialCalories be used to calculate total_calories thereby making the edit-meal component responsive to total_calories
-  totalCalories_change(meal: Meal): void {
-    this.total_calories = this.total_calories + meal.calories - this.initialCalories;
-  }
+  // calorieChanged(meal) method outputs event trigger (changeTrigger) with "changed" value of meal-calories enclosed to its parent(s) on change
+  // changeTrigger sends event trigger only if calorie value actually changes
+  changedCalories(calories: number) : void {
+    this.new_calories = calories;
 
-  totalCalories_new(newMeal: any[]) : void {
-    this.total_calories += newMeal[2];
+    if (this.initialCalories === undefined) {
+      this.total_calories = this.total_calories + this.new_calories - this.array[0];
+    } else {
+      this.total_calories = this.total_calories + this.new_calories - this.initialCalories;
+    }
+
   }
 
 }
