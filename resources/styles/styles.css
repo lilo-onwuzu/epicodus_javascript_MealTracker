@@ -11,7 +11,7 @@
 body {
   font-family: 'Abel', sans-serif;
   text-align: center;
-  background-image: url(http://static1.squarespace.com/static/5418a5bae4b0877352524377/t/544db645e4b03c7c30b517ad/1414379082219/);
+  background-image: url(http://i1297.photobucket.com/albums/ag34/mlaphotos13/icecream_zpsb6231745.jpg);
   background-size: cover;
 }
 
@@ -24,6 +24,7 @@ body {
 
 input {
   background-color: black;
+  color: white;
 }
 
 h4 {
@@ -33,7 +34,7 @@ h4 {
 }
 
 .selected {
-  color: #0088cc;
+  color: #56A8AE;
 }
 
 .cursor:hover {
@@ -43,8 +44,8 @@ h4 {
 }
 
 .container {
-  font-size: 20px;
-  color: white;
+  color: #006666;
+  font-weight: bolder;
 }
 
 h3 {
@@ -60,7 +61,7 @@ section.range-slider {
 
 section.range-slider input {
   position: absolute;
-  top: 15px;
+  top: 30px;
   width: 250px;
 }
 
@@ -74,4 +75,30 @@ section.range-slider input::-webkit-slider-thumb {
 meal-list {
   position:relative;
   text-align: center;
+}
+
+.row {
+  font-size: 20px;
+}
+
+.details {
+  font-size: 15px;
+}
+
+.meal-form .input-sm-calories {
+  width: 100px;
+  display: inline-block;
+  margin_bottom: 0px;
+  border_bottom: 0px;
+  padding_bottom: 0px;
+}
+
+.jumbotron .total {
+  float: right;
+  color: white;
+  padding-top: 20px;
+  padding-right: 40px;
+  font-size: 20px;
+  margin: 0px;
+  border:0px;
 }

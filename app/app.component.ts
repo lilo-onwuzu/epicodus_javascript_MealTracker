@@ -1,7 +1,7 @@
 // json data file are the standard package for moving data between systems
 // tsconfig.json is a json file that is used to configure the typescript compiler
 // typings.json holds typescript definition files that teach the compiler about typescript syntax and new features
-import { Component } from 'angular2/core';
+import { Component, EventEmitter } from 'angular2/core';
 import { MealListComponent } from './meal-list.component';
 import { Meal } from './meal.model';
 
@@ -13,22 +13,27 @@ import { Meal } from './meal.model';
   directives: [ MealListComponent ],
   template: `
     <div class="jumbotron">
+      <span class="total">TotalCalories: {{ total_calories }} </span>
     </div>
 
     <h4>Meal Tracker</h4>
 
     <div class="container">
-      <meal-list [mealList]="meals" ></meal-list>
+      <meal-list [mealList]="meals" (totalTrigger)= "displayTotal($event)"></meal-list>
     </div>
   `
 })
 
 // appComponent will store all the models and we will data bind them to the children so they can only be edited only from here
 export class AppComponent {
-  public meals: Meal[];
+  public meals: Meal[] = [];
+  public total_calories: number;
 
-  constructor() {
-    this.meals = [new Meal("Icecream", "Sooo good", 1500), new Meal("Rice & Stew", "muy picantes", 495)];
+  constructor() {}
+
+  // displayTotal will pass the value enclosed in the EventEmitter "totalTrigger" to the property total_calories to be displayed
+  displayTotal(calories: number) : void {
+    this.total_calories = calories;
   }
 
 }

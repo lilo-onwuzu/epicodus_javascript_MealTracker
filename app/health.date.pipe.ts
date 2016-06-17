@@ -10,7 +10,9 @@ import { Meal } from './meal.model';
 })
 
 export class Health_Date_Pipe implements PipeTransform {
-  // args which is declared as an array of "any" data type represents the conditions that will be used to filter the input Meal[] array
+
+  // args which is declared as an array of "any" data type represents the conditions that will be used to filter the input "Meal[]"
+  // transform is a method of the PipeTransform module "interface"
 
   transform( input: Meal[], args: any[] ) {
 
@@ -18,6 +20,7 @@ export class Health_Date_Pipe implements PipeTransform {
     var maxCalories = args[1];
     var mealDate = args[2];
 
+    // (meal)=> {} is a short-hand form to define the function "function(meal) = {}"
     return input.filter((meal) => {
       if (mealDate) {
         return meal.calories >= minCalories && meal.calories <= maxCalories && meal.day === mealDate;

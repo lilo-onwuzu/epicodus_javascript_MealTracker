@@ -1,0 +1,36 @@
+
+On Thu, Jun 2, 2016 at 5:40 PM, LILO ONWUZU <lpr422@gmail.com> wrote:
+
+Basic Html is not dynamic, Together with JS, you can have some interactivity through the JS code but it would be difficult to make a robust application using just JS and html. In using html+JS, the index.html page executes in the browser using jQuery to go back and forth between the view(html) and the model(JS) to replace variables and add dynamic elements or interactivity. In this case, JS is the "model" that holds the application logic, html is the "view" and jQuery is the "controller". jQuery parses a library of JS models(functions, variables, event listeners etc.) and displays the appropriate view (html). The other controller option is using a framework (Ember for JS, Django for Python, Ruby for Rails and Spark for Java). Frameworks make web applications dynamic by controlling making http requests from the client (browser) to the web server based on different views (html pages) or/and the url path requested. They can also control fetching and updating variables and other data services that those views need.
+
+
+Angular does not use basic html but instead uses an "Angular Markup (Extended html)" that has some html elements. The goal of angular is to make one single http request to the server. The server supplies the root html and JS code needed for the entire angular application in one request while retrieving small data service elements in the background. This makes angular fast and dynamic because it runs from a single view (single html page). Angular does this through additional html constructs called "directives". These directives are themselves "dynamic JS functions" that are capable of updating elements in the single html page, adding interactivity(show/hide) and structure to the html selectors, data services e.g logging, validating and ajax etc. Because this directives are reusable, it shortens the amount of JS and HTML code needed. Aside from the "custom directives" that we can create, there are also many native directives. Custom are typically used as html selectors (e.g <new-component></new-component) and native angular directives are typically used as attributes of selectors (e.g <div *ngFor="model"></div>).
+
+
+"Components are a form of directives" that include extra configurations for adding a template and how to handle elements in that template. Component directives are defined in "decorators" that begin with "@Component...". These decorators are JS functions that are attached to the html as "metadata or buried data". The decorator definitions contain the configuration arguments like the "template" or view (`insert html here`), "the children component directives", "inputs and outputs", "data service providers" etc. The model of the component directive that contains all the attributes, methods and values that can be used within its template is defined in a class and embedded in a angular module/package that begins with "exports...". By doing this, the class definition of the model for that component is enclosed in a module that is imported and instantiated when the component is called in the html e.g The class "NewComponent" of the "new-component" component directive is instantiated when <new-component></new-component> is called in the html. The component directive decorator (metadata) must be directly followed by the model class.
+
+
+Angular "native" directives are used as attributes for selector tags e.g <div *ngFor="" ></div>. They could be "structural or attributal (data-binding) directives". Structural directives e.g *ngFor are used to remove/replace/repeat or structure the selectors in which they are used. Attributal native directives are defined to help with "data binding" (to transport models (data or methods) from a component directive to its DOM template or from parent modules to child modules.e.g (click), [ngmodel], {{ }} etc.)
+
+
+Inline image 1 (see email for pic!)
+Inline image 3 Inline image 2 (see email for pic!)
+
+  <div>{{ hero.name }}</div>
+{{ }} Interpolation: Describes a one-way data binding path from component to its own template. It passes the value of a property/attribute "name" of the model class "hero" from the component directive "HeroComponent" to its own template <hero-component></hero-component> or <hero></hero>.
+
+  <hero-detail [hero]="selectedHero"></hero-detail>
+Property Binding: In this case, the parent component directive <hero></hero> is passing its attribute/property "selectedHero" to an input property in the child component directive <hero-detail></hero-detail> as the input property [hero]. Now "hero" can be called anywhere in the template of <hero-detail>
+
+  <div (click)="selectHero(hero)"></div>
+Event Binding: In this case, the child component directive <div></div> of <hero-detail></hero-detail> is passing an event trigger as an output property "click" to its parent. This way, when this div is clicked on, its parent component <hero-detail> receives the trigger and executes one of its methods "selectHero(hero)".
+
+To summarize: "Properties DOWN, Actions UP". Properties of parent components can be passed to their children components as input properties defined in square brackets [input]. Actions (EventEmitters<values>) can be passed from children components to their parents as output properties defined in parenthesis (output). And of course, components can pass models to their very own templates using {{ }}.
+
+Angular is composed entirely of re-useable modules. Modules are shipped or wired by using the syntax 'import' or 'export'. The angular app itself sits inside a library module called '@angular/core' so when we want to link or wire another module e.g "Component" from the library module @angular/core, we use the statement:
+import { Component } from '@angular/core';
+Angular "bootstraps" the root module first. The root module or component has many child components which hold the entire angular app. You can think of module as vehicles/vessels for moving or holding data in angular. A module can hold:
+1. a component directive or html selector/tag e.g <new-component></new-component> which should include a template for that selector
+2. a class for holding the model for a component directive or view
+3. a controller which is like a component directive but it does not hold a template. When we define a module in our app directory e.g app.component, we begin with the export keyword. We can then import this module if we want to use it another class file in our package like this:
+import { AppComponent } from './app.component';

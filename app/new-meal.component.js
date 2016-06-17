@@ -19,13 +19,18 @@ System.register(['angular2/core'], function(exports_1, context_1) {
             }],
         execute: function() {
             NewMealComponent = (function () {
+                // no required arguments to instantiate this class
                 function NewMealComponent() {
-                    // We "instance" NewMealComponent's property 'new' as an object of the EventEmitter class
+                    // in Angular, properties can be passed down from parent components to child components. Events can be passed the opposite way. "properties down, actions up". Here we create an Event emitter to trigger a new meal addition to the parent component class.
+                    // We "declare" NewMealComponent's output property 'new-trigger' as an object of the EventEmitter<> class or data type that can hold an array of "any" type of data object
+                    // newTrigger is an EventEmitter that will send an event trigger to the parent component (meal-list). Remember the master list that we need to update lives in the root component
                     this.newTrigger = new core_1.EventEmitter();
+                    this.calorie_value = 1500;
                 }
-                // addMeal(args) method of NewMealComponent class will cause its property this.new to emit the values in the labels in args
+                // addMeal(args) method of NewMealComponent class will cause its output property "newTrigger" to emit the added values in the labels to the parent
                 NewMealComponent.prototype.addMeal = function (name, description, calories) {
                     this.newTrigger.emit([name.value, description.value, parseInt(calories.value)]);
+                    // empty the values afterwards
                     name.value = "";
                     description.value = "";
                     calories.value = "";
@@ -33,9 +38,9 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 NewMealComponent = __decorate([
                     core_1.Component({
                         selector: 'new-meal',
-                        // output 'new' event to parent root component directive
+                        // output 'newTrigger' event to parent component directive
                         outputs: ['newTrigger'],
-                        template: "\n    <div class=\"meal-form\">\n      <h3>Add A New Meal:</h3>\n      <input placeholder=\"Name\" class=\"input-sm\" type=\"text\" #newName>\n      <input placeholder=\"Description\" class=\"input-sm\" type=\"text\" #newDescription>\n      <input placeholder=\"Calories\" class=\"input-sm\" type=\"number\" #newCalories>\n      <button class=\"btn btn-info\" (click)=\"addMeal(newName, newDescription, newCalories)\">Add</button>\n    </div>\n  "
+                        template: "\n    <div class=\"meal-form\">\n      <h3>Add A New Meal:</h3>\n\n      <input placeholder=\"Name\" class=\"input-sm\" type=\"text\" #newName>\n      <input placeholder=\"Description\" class=\"input-sm\" type=\"text\" #newDescription>\n      <span> 0 <input [(ngModel)]=\"calorie_value\" placeholder=\"Calories\" class=\"input-sm-calories\" type=\"range\" min=\"0\" max=\"3000\" step=\"50\" #newCalories> 3000 Calories | {{ calorie_value }}</span><br>\n\n      <button class=\"btn btn-info\" (click)=\"addMeal(newName, newDescription, newCalories)\">Add</button>\n\n    </div>\n  "
                     }), 
                     __metadata('design:paramtypes', [])
                 ], NewMealComponent);

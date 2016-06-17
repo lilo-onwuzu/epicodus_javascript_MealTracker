@@ -1,10 +1,10 @@
 export class Meal {
-  public health: boolean;
   public date: any;
   public day: string;
   public split1: string[];
   public split2: string[];
 
+  // all attributes defined or instantiated within the constructor
   constructor(public name: string, public description: string, public calories: number) {
     this.date = new Date().toJSON();
     this.split1 = this.date.split("-");

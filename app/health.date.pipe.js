@@ -24,11 +24,13 @@ System.register(['angular2/core'], function(exports_1, context_1) {
             Health_Date_Pipe = (function () {
                 function Health_Date_Pipe() {
                 }
-                // args which is declared as an array of "any" data type represents the conditions that will be used to filter the input Meal[] array
+                // args which is declared as an array of "any" data type represents the conditions that will be used to filter the input "Meal[]"
+                // transform is a method of the PipeTransform module "interface"
                 Health_Date_Pipe.prototype.transform = function (input, args) {
                     var minCalories = args[0];
                     var maxCalories = args[1];
                     var mealDate = args[2];
+                    // (meal)=> {} is a short-hand form to define the function "function(meal) = {}"
                     return input.filter(function (meal) {
                         if (mealDate) {
                             return meal.calories >= minCalories && meal.calories <= maxCalories && meal.day === mealDate;

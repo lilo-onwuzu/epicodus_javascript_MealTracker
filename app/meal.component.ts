@@ -2,26 +2,31 @@ import { Component, EventEmitter } from 'angular2/core';
 import { EditMealComponent } from './edit-meal.component';
 import { Meal } from './meal.model.ts';
 
-// {{ model }} "mustache tags" is used to call a one-way stream from a component to its template
+// {{ model }} "mustache tags" is used to call a one-way data stream from a component's model to its template
 
 @Component ({
   selector: 'meal-display',
+  // list all children components separated by commas
   directives: [ EditMealComponent ],
-  // these are the inputs and outputs of the meal-display component. They will also be called in the parent component <meal-list> where there is a <meal-display> tag. <meal-display [meal]="meal" [selectedMeal]="selectedMeal" (edit)="editMeal($event)" ></meal-display>
-  // (edit) in the <meal-display> tag will output the 'edit' EventEmitter that will trigger the editMeal() method. The argument of the EventEmitter object ($event) OR [name.value, description.value, ...] is passed to the editMeal method.
-  // they will also be declared in MealComponent class declaration before they can be used in the class declaration
+  // these are the inputs and outputs of the meal-display component. They will also be called in the parent component <meal-list> where there is a <meal-display> tag. <meal-display [meal]="meal" [selectedMeal]="selectedMeal" (store2)="collectCalories($event)" ></meal-display>
+  // inputs and outputs need to be declared in MealComponent class declaration before they can be used there to create methods etc.
   // parent component <meal-list> transfers its property "meal" to <meal-display> child component's input property [meal].
-  // child component <meal-display> outputs an event (editTrigger) to its parent <meal-list>
   inputs: [ 'meal', 'selectedMeal' ],
+  // "store" output property from <edit-meal> is used to trigger the storeAgain(<value held in "store" EventEmitter>) method which send another event trigger "store2" to the parent of <meal-display>, <meal-list>
   outputs: [ 'store2' ],
   template: `
     <div>
       <h3 class="cursor" >{{ meal.name }}</h3>
-      <p *ngIf="meal === selectedMeal" >{{ meal.description }}</p>
-      <p *ngIf="meal === selectedMeal" >{{ meal.calories }}</p>
-      <small *ngIf="meal === selectedMeal" >{{ meal.day }} {{ meal.time }}</small>
+
+      <div class="details">
+        <p *ngIf="meal === selectedMeal" >{{ meal.description }}</p>
+        <p *ngIf="meal === selectedMeal" >{{ meal.calories }}</p>
+        <small *ngIf="meal === selectedMeal" >{{ meal.day }} {{ meal.time }}</small>
+      </div>
+
     </div>
-    <edit-meal [meal]="meal" *ngIf="meal === selectedMeal" (store)="storeAgain($event)" ></edit-meal>
+
+    <edit-meal *ngIf="meal === selectedMeal" [meal]="meal" (store)="storeAgain($event)" ></edit-meal>
   `
 })
 
@@ -29,16 +34,13 @@ export class MealComponent {
   // input property  ['meal'] passed down from parent-component <meal-list> has to be declared here as public meal:Meal before the input property can be used here. In this case, we do not need to use it so we do not declare it
   // No output propeties to declare and then use
   public store2: EventEmitter<number> = new EventEmitter();
-  public collect: number;
+  public calories: number;
 
-  construct() {
-    this.store2 = new EventEmitter();
+  construct() {}
+
+  storeAgain(initialCalories: number): void {
+    this.calories = initialCalories;
+    this.store2.emit(this.calories);
   }
-
-  storeAgain(event: number): void {
-    this.collect = event;
-    this.store2.emit(this.collect);
-  }
-
 
 }

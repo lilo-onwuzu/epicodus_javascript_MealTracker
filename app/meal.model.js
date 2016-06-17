@@ -6,6 +6,7 @@ System.register([], function(exports_1, context_1) {
         setters:[],
         execute: function() {
             Meal = (function () {
+                // all attributes defined or instantiated within the constructor
                 function Meal(name, description, calories) {
                     this.name = name;
                     this.description = description;
