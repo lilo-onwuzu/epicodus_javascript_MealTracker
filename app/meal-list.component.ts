@@ -37,7 +37,7 @@ import { Health_Date_Pipe } from './health.date.pipe';
       </div>
     </div>
 
-    <div *ngFor="#meal of mealList | health_date:sliderMinValue:sliderMaxValue:filterDate" (click)="selectMeal(meal)" [class.selected]="meal === selectedMeal" >
+    <div *ngFor="#meal of mealList | health_date:sliderMinValue:sliderMaxValue:filterDate" (click)="selectMeal(meal)" [class.selected]="meal === selectedMeal" (click)="loop()">
       <meal-display [meal]="meal" [selectedMeal]="selectedMeal" (store2)="storeInitialCalories($event)"  (change2)="changedCalories($event)" (change2)="sendTotalCalories()"></meal-display>
     </div><br><br>
 
@@ -102,6 +102,8 @@ export class MealListComponent{
     } else {
       this.total_calories = this.total_calories + this.new_calories - this.initialCalories;
     }
+    // empty array so when another meal is selected, this.aray[0] corresponds to the first calorie_value entered where this_initial calories is undefined
+    this.array = [];
 
   }
 
