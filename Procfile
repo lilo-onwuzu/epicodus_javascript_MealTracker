@@ -1,1 +1,1 @@
-web: ./build/install/meal-tracker/bin/meal-tracker
+web: node app.js
