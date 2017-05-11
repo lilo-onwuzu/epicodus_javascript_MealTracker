@@ -1,1 +1,1 @@
-web: ./build/install/bandTracker/bin/meal-tracker-application
+web: ./build/install/meal-tracker-application/bin/meal-tracker-application
